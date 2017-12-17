@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/adlist"
+    android:padding="5dip"
+    tools:context=".ViewSurveyActivity">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="3dp">
+
+    <!--  ListRow Left sied Thumbnail image -->
+    <RelativeLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip"
+        android:orientation="vertical">
+
+        <!-- Title Of Song-->
+        <TextView
+            android:id="@+id/DTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dip"
+            android:fontFamily="sans-serif-condensed-thin"/>
+
+        <TextView
+            android:id="@+id/LName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/DTime"
+            android:textSize="20dip"
+            android:fontFamily="sans-serif-condensed"
+
+            />
+
+        <TextView
+            android:id="@+id/LAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/LName"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="22dip"
+            />
+
+        <!-- Artist Name -->
+        <TextView
+            android:id="@+id/Lzone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/LAddress"
+            android:textSize="20dip"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_marginTop="1dip"/>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/LAddress"
+            android:layout_marginLeft="113dp"
+            android:layout_marginStart="113dp"
+            android:layout_toEndOf="@+id/LAddress"
+            android:layout_toRightOf="@+id/LAddress"
+            android:gravity="right" />
+
+
+    </RelativeLayout>
+
+
+
+    <!-- Rightend Duration -->
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

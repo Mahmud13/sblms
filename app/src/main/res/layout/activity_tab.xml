@@ -1,0 +1,384 @@
+<RelativeLayout
+    android:id="@+id/main_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TABActivity">
+
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/uploadImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+
+
+                <TextView
+                    android:text="Shop Information"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    android:layout_gravity="center"
+                    android:paddingBottom="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2" />
+
+
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_height="fill_parent">
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:text="Company Name: "
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/CName"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:text="Proprietor Name: "
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/pname"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:text="Division : "
+                        android:textSize="@dimen/text_size_list"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                    <TextView
+                        android:id="@+id/division"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:text="District : "
+                        android:textSize="@dimen/text_size_list"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                    <TextView
+                        android:id="@+id/District"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:text="Address : "
+                        android:layout_width="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                    <TextView
+                        android:id="@+id/add"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:text="Contact : "
+                        android:layout_width="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                    <TextView
+                        android:id="@+id/cont"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:text="Email : "
+                        android:textSize="@dimen/text_size_list"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:textSize="@dimen/text_size_list" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:text="Website : "
+                        android:layout_width="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                    <TextView
+                        android:id="@+id/website"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+            </TableLayout>
+            <TextView
+                android:text="Survey Data"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:layout_gravity="center"
+                android:paddingBottom="5dp"
+                android:layout_height="wrap_content"
+                android:layout_column="2" />
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_height="fill_parent">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:text="Shop Name : "
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_list"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1" />
+                <TextView
+                    android:id="@+id/SName"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size_list"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1" />
+
+            </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:text="Product Type : "
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/Ptype"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+            </TableLayout>
+
+                <de.codecrafters.tableview.TableView
+                    android:id="@+id/tableView1"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"/>
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="20dp"
+                android:layout_height="fill_parent">
+
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:text="Agree : "
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/agree"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:text="Will Think : "
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/think"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:text="Not Interested : "
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/inter"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:text="Other : "
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/other"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:text="BRIEF Comment : "
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/bcom"
+                        android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size_list"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+
+                </TableRow>
+
+
+            </TableLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>
