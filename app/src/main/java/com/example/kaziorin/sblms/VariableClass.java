@@ -17,5 +17,6 @@ public class VariableClass {
     public static final String  surveyed_shop_list = api_url + "shops/not-surveyed";
     public static final String  surveyed_list_view = api_url + "shops/detail-list";
     public static final String  surveyed = api_url + "surveys";
+    public static final String  surveyed_view = api_url + "surveys/by-shopid";
 
-}//shops/detail-list
+}

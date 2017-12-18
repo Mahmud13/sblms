@@ -212,53 +212,45 @@
                 android:layout_marginLeft="15dp"
                 android:layout_height="fill_parent">
 
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
 
-                <TextView
-                    android:text="Shop Name : "
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/text_size_list"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1" />
-                <TextView
-                    android:id="@+id/SName"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/text_size_list"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1" />
+                <TableRow>
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/spinnerProductType"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
 
-            </TableRow>
+                        <Spinner
+                            android:id="@+id/Spinner_ptype"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </TableRow>
 
                 <TableRow
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
-                    <TextView
-                        android:text="Product Type : "
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:textSize="@dimen/text_size_list"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/spinnerShopName"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_column="1" />
-                    <TextView
-                        android:id="@+id/Ptype"
-                        android:layout_width="wrap_content"
-                        android:textSize="@dimen/text_size_list"
-                        android:layout_height="wrap_content"
-                        android:layout_column="1" />
+                        android:layout_marginTop="10dp">
+                        <Spinner
+                            android:id="@+id/Spinner_sname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                    </android.support.design.widget.TextInputLayout>
+
 
                 </TableRow>
 
-            </TableLayout>
 
-                <de.codecrafters.tableview.TableView
-                    android:id="@+id/tableView1"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="wrap_content"/>
+            </TableLayout>
 
             <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"

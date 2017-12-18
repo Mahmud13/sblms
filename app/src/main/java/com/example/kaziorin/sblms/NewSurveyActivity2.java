@@ -3,6 +3,7 @@ package com.example.kaziorin.sblms;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,10 +15,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.kaziorin.sblms.ServiceHandler.response;
 
 public class NewSurveyActivity2 extends AppCompatActivity {
 
@@ -29,6 +46,8 @@ public class NewSurveyActivity2 extends AppCompatActivity {
     public static final String TokenPreference = "tokenT";
     RequestQueue queue;
     public static final String NamePreference = "nameU";
+    public static final String SurveyID = "surveyid";
+    int code;
 
     String Uemail,Type,TokenString,Name;
     SharedPreferences sharedpreferences;
@@ -40,17 +59,22 @@ public class NewSurveyActivity2 extends AppCompatActivity {
     Spinner agree , think, interest;
     ArrayAdapter<String> agreeAdapter,thinkAdapter,interestAdapter;
     boolean agreeB , thinkB , interestB;
+    int SID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_survey2);
 
+        queue = Volley.newRequestQueue(this);
+
         Intent intent = getIntent();
         Uemail = intent.getStringExtra("email");
         Type = intent.getStringExtra(userType);
         TokenString = intent.getStringExtra("token");
+        SID = intent.getIntExtra(SurveyID,0);
         Name = intent.getStringExtra("Name");
+        Log.d("NSactivity2","SID"+ SID);
         Log.d("NSactivity2","name"+ Name);
         Log.d("NSactivity2","email"+ Uemail);
         Log.d("NSactivity2","Type"+ Type);
@@ -59,6 +83,7 @@ public class NewSurveyActivity2 extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCESuser, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
+        editor.putInt(SurveyID, SID);
         editor.putString(NamePreference, Name);
         editor.putString(TokenPreference, TokenString);
         editor.putString(userType, Type);
@@ -144,13 +169,137 @@ public class NewSurveyActivity2 extends AppCompatActivity {
             interestB = false;
         }
 
-        Intent intent = new Intent(NewSurveyActivity2.this, NewSurveyActivity.class);
-        intent.putExtra("email", sharedpreferences.getString(usermail,""));
-        intent.putExtra("token", sharedpreferences.getString(TokenPreference,""));
-        intent.putExtra("Name", sharedpreferences.getString(NamePreference,""));
-        intent.putExtra(userType,OperatorT);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        Log.d("okkk","id"+sharedpreferences.getInt(SurveyID,0)+"-a-"+agreeB+"-i-"+interestB+"-t-"+thinkB+"-c-"+FinalText+"-o-"+OtherText);
+
+        new surveyInsert2(sharedpreferences.getInt(SurveyID,0)).execute();
+
+    }
+
+
+    private class surveyInsert2 extends AsyncTask<String, Void, String> {
+
+        String url = VariableClass.surveyed;
+        InputStream inputStream = null;
+        String result = "";
+        int sid;
+
+        surveyInsert2(int sid )
+        {
+            this.sid = sid;
+        }
+
+        @Override
+        protected String doInBackground(String... arg0) {
+
+            StringRequest postRequest = new StringRequest(Request.Method.PUT, url+"/"+sid,
+                    new Response.Listener<String>()
+                    {
+                        @Override
+                        public void onResponse(String response) {
+                            // response
+                            Log.d("New2Response", response);
+
+                            try {
+                                //JSONObject obj = new JSONObject(response);
+//                                String r = obj.getString("user");
+//                                JSONObject mainOb = new JSONObject(r);
+//
+//                                code = obj.getInt("code");
+//                                //JSONObject messageOb = new JSONObject(message);
+//                                Log.d("oba","code:"+code);
+
+
+                                JSONObject obj = new JSONObject(response);
+                                code = obj.getInt("code");
+                                Log.d("codeC","C"+code);
+
+                                if(code==0)
+                                {
+                                    agree.setSelection(0);
+                                    think.setSelection(0);
+                                    interest.setSelection(0);
+                                    other.setText("");
+                                    Bcom.setText("");
+                                    Intent intent = new Intent(NewSurveyActivity2.this, NewSurveyActivity.class);
+                                    intent.putExtra("email", sharedpreferences.getString(usermail,""));
+                                    intent.putExtra("token", sharedpreferences.getString(TokenPreference,""));
+                                    intent.putExtra("Name", sharedpreferences.getString(NamePreference,""));
+                                    intent.putExtra(userType,OperatorT);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                }
+                                else if(code ==1){ Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();}
+                                else if(code ==2){ Toast.makeText(getApplicationContext(),"Unauthorized",Toast.LENGTH_SHORT).show();}
+                                else if(code ==3){ Toast.makeText(getApplicationContext(),"System Error",Toast.LENGTH_SHORT).show();}
+                                else if(code ==4){ Toast.makeText(getApplicationContext(),"Require Field",Toast.LENGTH_SHORT).show();}
+                                else if(code ==5){Toast.makeText(getApplicationContext(),"User Already Exist",Toast.LENGTH_SHORT).show();}
+                                else if(code ==6){Toast.makeText(getApplicationContext(),"No user found",Toast.LENGTH_SHORT).show();}
+
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // error
+                            Log.d("Error.Response", response);
+                        }
+                    }
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("token", sharedpreferences.getString(TokenPreference,""));
+                    Log.d("header","Token:Header"+sharedpreferences.getString(TokenPreference,""));
+                    return headers;
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+
+                    // ShopModel smodel = new ShopModel(cname,pname,addrss,phone,email,website,district,Lat,Long,image);
+
+                    NewSurveyModel model =new NewSurveyModel();
+
+                    model.isAgreed = agreeB;
+                    model.isNotInterested = interestB;
+                    model.isThink = thinkB;
+                    model.comment = OtherText;
+                    model.others = FinalText;
+
+                    Gson gson = new Gson();
+                    //gson.toJson(user);
+                    String mContent = gson.toJson(model);
+                    Log.d("mcontent","content:"+mContent);
+                    byte[] body = new byte[0];
+                    try {
+                        body = mContent.getBytes("UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        Log.e("pp", "Unable to gets bytes from JSON", e.fillInStackTrace());
+                    }
+                    return body;
+                }
+
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json";
+                }
+            };
+            queue.add(postRequest);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+        }
 
     }
     public boolean onKeyDown(int keyCode, KeyEvent event)

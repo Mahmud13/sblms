@@ -33,7 +33,6 @@ public class listAdapter extends ArrayAdapter<String> {
     public listAdapter(Activity context, String[] item_name, String[] item_zone, String[] item_address, String[] item_time) {
         super(context, R.layout.adapter_list, item_name);
 
-
         this.context=context;
         this.item_name=item_name;
         this.item_zone=item_zone;
@@ -41,6 +40,11 @@ public class listAdapter extends ArrayAdapter<String> {
         this.item_time=item_time;
 
     }
+    @Override
+    public int getCount() {
+        return super.getCount();
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

@@ -68,6 +68,7 @@ public class NewSurveyActivity extends AppCompatActivity
     public static final String userType = "userType";
     public static final String AdminT = "admin";
     public static final String OperatorT = "user";
+    public static final String SurveyID = "surveyid";
     public static final String TokenPreference = "tokenT";
     RequestQueue queue;
     public static final String NamePreference = "nameU";
@@ -264,18 +265,39 @@ String ShopName_Array[],ShopId_array[];
         {
             if(Type1.size()<4) {
 
-
+                String BnameCheck,CommentCheck,PPriceCheck, SPriceCheck;
 
                 name1.add(Bname);
                 pprice1.add(Pprice);
                 sprice1.add(Spric);
                 comm1.add(Com);
                 Type1.add(productType);
-                BrandModel m = new BrandModel(Bname,Com,Double.valueOf(Pprice),Double.valueOf(Spric));
-                products.get(0).brands.add(m);
-                brands.add(m);
-                pro1Add();
-                resetField();
+
+                    if (Bname.equals(""))
+                    {
+                        Toast.makeText(getApplicationContext(),"Brand name empty",Toast.LENGTH_SHORT).show();
+                    }
+                    else if((Pprice.equals("")||Spric.equals("")) && !Bname.equals(""))
+                    {
+                        Toast.makeText(getApplicationContext(),"Price field empty",Toast.LENGTH_SHORT).show();
+                    }
+                    else if((!Bname.equals("")&& !Pprice.equals("")||!Spric.equals("")) &&Com.equals(""))
+                    {
+                        BrandModel m = new BrandModel(Bname,Double.valueOf(Pprice),Double.valueOf(Spric));
+                        products.get(0).brands.add(m);
+                        brands.add(m);
+                        pro1Add();
+                        resetField();
+
+                    }else if(!Bname.equals("")&& !Pprice.equals("")&&!Spric.equals("") &&!Com.equals(""))
+                    {
+                        BrandModel m = new BrandModel(Bname,Com,Double.valueOf(Pprice),Double.valueOf(Spric));
+                        products.get(0).brands.add(m);
+                        brands.add(m);
+                        pro1Add();
+                        resetField();
+                    }
+
             }else
             {
                 resetField();
@@ -290,11 +312,30 @@ String ShopName_Array[],ShopId_array[];
                 sprice2.add(Spric);
                 comm2.add(Com);
                 Type2.add(productType);
-                BrandModel m = new BrandModel(Bname,Com,Double.valueOf(Pprice),Double.valueOf(Spric));
-                products.get(1).brands.add(m);
-                pro2Add();
+                if (Bname.equals(""))
+                {
+                    Toast.makeText(getApplicationContext(),"Brand name empty",Toast.LENGTH_SHORT).show();
+                }
+                else if((Pprice.equals("")||Spric.equals("")) && !Bname.equals(""))
+                {
+                    Toast.makeText(getApplicationContext(),"Price field empty",Toast.LENGTH_SHORT).show();
+                }
+                else if((!Bname.equals("")&& !Pprice.equals("")||!Spric.equals("")) &&Com.equals(""))
+                {
+                    BrandModel m = new BrandModel(Bname,Double.valueOf(Pprice),Double.valueOf(Spric));
+                    products.get(1).brands.add(m);
+                    brands.add(m);
+                    pro1Add();
+                    resetField();
 
-                resetField();
+                }else if(!Bname.equals("")&& !Pprice.equals("")&&!Spric.equals("") &&!Com.equals(""))
+                {
+                    BrandModel m = new BrandModel(Bname,Com,Double.valueOf(Pprice),Double.valueOf(Spric));
+                    products.get(1).brands.add(m);
+                    brands.add(m);
+                    pro1Add();
+                    resetField();
+                }
             }else
             {
                 resetField();
@@ -310,8 +351,30 @@ String ShopName_Array[],ShopId_array[];
                 comm3.add(Com);
                 Type3.add(productType);
 
-                BrandModel m = new BrandModel(Bname,Com,Double.valueOf(Pprice),Double.valueOf(Spric));
-                products.get(2).brands.add(m);
+                if (Bname.equals(""))
+                {
+                    Toast.makeText(getApplicationContext(),"Brand name empty",Toast.LENGTH_SHORT).show();
+                }
+                else if((Pprice.equals("")||Spric.equals("")) && !Bname.equals(""))
+                {
+                    Toast.makeText(getApplicationContext(),"Price field empty",Toast.LENGTH_SHORT).show();
+                }
+                else if((!Bname.equals("")&& !Pprice.equals("")||!Spric.equals("")) &&Com.equals(""))
+                {
+                    BrandModel m = new BrandModel(Bname,Double.valueOf(Pprice),Double.valueOf(Spric));
+                    products.get(2).brands.add(m);
+                    brands.add(m);
+                    pro1Add();
+                    resetField();
+
+                }else if(!Bname.equals("")&& !Pprice.equals("")&&!Spric.equals("") &&!Com.equals(""))
+                {
+                    BrandModel m = new BrandModel(Bname,Com,Double.valueOf(Pprice),Double.valueOf(Spric));
+                    products.get(2).brands.add(m);
+                    brands.add(m);
+                    pro1Add();
+                    resetField();
+                }
                 pro3Add();
                 resetField();
             }else
@@ -401,12 +464,13 @@ String ShopName_Array[],ShopId_array[];
              Toast.makeText(getApplicationContext(),"Please Select Shop",Toast.LENGTH_SHORT).show();
         }else
         {
-            int id = Integer.parseInt(ShopId_array[Shopname.getSelectedItemPosition()]);
-//            arraycust();
-//            Log.d("nameF","name:"+nameF);
+                int id =Integer.parseInt (ShopId_array[Shopname.getSelectedItemPosition()-1]);
+
+            Log.d("shopid","shopid"+ShopId_array[Shopname.getSelectedItemPosition()-1]);
+            //Log.d("nameFid","name:"+id );
             if(isOnline()==true)
             {
-                new surveyInsert1(id).execute();
+               new surveyInsert1(id).execute();
             }
             else
             {
@@ -422,20 +486,46 @@ String ShopName_Array[],ShopId_array[];
         ProductType.setSelection(0);
         TableSpinner.setAdapter(null);
         nametext.setText("");
-    }
-    public void Next(View v)
-    {
-        check = false;
-        Intent intent = new Intent(NewSurveyActivity.this, NewSurveyActivity2.class);
-        intent.putExtra("email", sharedpreferences.getString(usermail,""));
-        intent.putExtra("token", sharedpreferences.getString(TokenPreference,""));
-        intent.putExtra("Name", sharedpreferences.getString(NamePreference,""));
-        intent.putExtra(userType,OperatorT);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        Toast.makeText(getApplicationContext(),"Next",Toast.LENGTH_SHORT).show();
-    }
+        name1.clear();
+        pprice1.clear();
+        sprice1.clear();
+        comm1.clear();
+        Type1.clear();
+        name2.clear();
+        pprice2.clear();
+        sprice2.clear();
+        comm2.clear();
+        Type2.clear();
+        name3.clear(); pprice3.clear();
+        sprice3.clear();
+        comm3.clear();
+        Type3.clear();
 
+        ArrayList<String> nameF = new ArrayList<String>();
+        ArrayList<String> ppriceF = new ArrayList<String>();
+        ArrayList<String> spriceF = new ArrayList<String>();
+        commF.clear();
+       TypeF.clear();
+    }
+    public void Next(View v) {
+        check = false;
+
+        if (Shopname.getSelectedItemPosition() == 0) {
+            Toast.makeText(getApplicationContext(), "Please Select Shop", Toast.LENGTH_SHORT).show();
+        } else {
+            int id = Integer.parseInt(ShopId_array[Shopname.getSelectedItemPosition() - 1]);
+
+            Log.d("shopid", "shopid" + ShopId_array[Shopname.getSelectedItemPosition() - 1]);
+            //Log.d("nameFid","name:"+id );
+            if (isOnline() == true) {
+                new surveyInsert1(id).execute();
+            } else {
+                Toast.makeText(getApplicationContext(), "Please Connect Internet", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+    }
     public void location(View v) {
         Toast.makeText(getApplicationContext(),"location",Toast.LENGTH_SHORT).show();
     }
@@ -461,30 +551,51 @@ String ShopName_Array[],ShopId_array[];
                         @Override
                         public void onResponse(String response) {
                             // response
-                            Log.d("Response", response);
+                            Log.d("NewResponse", response);
 
                             try {
+                                //JSONObject obj = new JSONObject(response);
+//                                String r = obj.getString("user");
+//                                JSONObject mainOb = new JSONObject(r);
+//
+//                                code = obj.getInt("code");
+//                                //JSONObject messageOb = new JSONObject(message);
+//                                Log.d("oba","code:"+code);
+
 
                                 JSONObject obj = new JSONObject(response);
-                                String r = obj.getString("user");
-                                JSONObject mainOb = new JSONObject(r);
-
                                 code = obj.getInt("code");
-                                //JSONObject messageOb = new JSONObject(message);
-                                Log.d("oba","code:"+code);
+                                Log.d("codeC","C"+code);
+                                code = obj.getInt("code");
+
+                                String r = obj.getString("survey");
+                                JSONObject mainOb = new JSONObject(r);
+                                int surveyID = mainOb.getInt("id");
+                                Log.d("main","r:"+r);
+                                Log.d("main","main:"+mainOb);
+                                Log.d("main","main:"+surveyID);
 
                                 if(code==0)
                                 {
                                     if(check ==true)
                                     {
                                         // save
+                                        Toast.makeText(getApplication(),"Save",Toast.LENGTH_SHORT).show();
                                         Allclear();
                                         resetField();
+                                        new shoplist().execute();
 
                                     }
                                     else
                                     {
-                                        // next
+                                        Intent intent = new Intent(NewSurveyActivity.this, NewSurveyActivity2.class);
+                                        intent.putExtra("email", sharedpreferences.getString(usermail,""));
+                                        intent.putExtra("token", sharedpreferences.getString(TokenPreference,""));
+                                        intent.putExtra("Name", sharedpreferences.getString(NamePreference,""));
+                                        intent.putExtra(SurveyID ,surveyID);
+                                        intent.putExtra(userType,OperatorT);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
                                     }
                                 }
                                 else if(code ==1){ Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();}

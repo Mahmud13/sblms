@@ -7,10 +7,23 @@ package com.example.kaziorin.sblms;
 public class BrandModel {
     String name,comment;
     double purchasePrice,salePrice;
+
     BrandModel( String name,String comment,Double purchasePrice ,Double salePrice)
     {
+
+            this.name = name;
+
+            this.salePrice = salePrice;
+
+            this.purchasePrice = purchasePrice;
+
+            this.comment= comment;
+
+
+    }
+    BrandModel( String name,Double purchasePrice ,Double salePrice)
+    {
         this.name = name;
-        this.comment= comment;
         this.purchasePrice = purchasePrice;
         this.salePrice = salePrice;
     }

@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -172,7 +174,15 @@ public class UserActivity extends AppCompatActivity
         District = (Spinner) findViewById(R.id.Sp_dis);
         Division = (Spinner) findViewById(R.id.Sp_div);
 
-        new divtList().execute();
+        if(isOnline()==true)
+        {
+            new divtList().execute();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Please Check Internet Connection",Toast.LENGTH_SHORT).show();
+        }
+
         adapterDiv = new ArrayAdapter<String>(this, R.layout.spinner_item_post, R.id.txt, listItemsDiv);
         Division.setAdapter(adapterDiv);
 
@@ -546,13 +556,35 @@ public class UserActivity extends AppCompatActivity
 
                             try {
 
-                                JSONObject obj = new JSONObject(response);
-                                String r = obj.getString("user");
-                                JSONObject mainOb = new JSONObject(r);
+//                                JSONObject obj = new JSONObject(response);
+//                                String r = obj.getString("user");
+//                                JSONObject mainOb = new JSONObject(r);
+//
+//                                code = obj.getInt("code");
+//                                //JSONObject messageOb = new JSONObject(message);
+//                                Log.d("oba","code:"+code);
 
+                                JSONObject obj = new JSONObject(response);
                                 code = obj.getInt("code");
-                                //JSONObject messageOb = new JSONObject(message);
-                                Log.d("oba","code:"+code);
+
+                                if(code==0)
+                                {
+                                    reset();
+                                        Intent intent = new Intent(UserActivity.this, NewSurveyActivity.class);
+                                        intent.putExtra("email", sharedpreferences.getString(usermail, ""));
+                                        intent.putExtra("token", sharedpreferences.getString(TokenPreference, ""));
+                                        intent.putExtra("Name", sharedpreferences.getString(NamePreference, ""));
+                                        intent.putExtra(userType, OperatorT);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    Toast.makeText(getApplicationContext(),"Insert",Toast.LENGTH_SHORT).show();
+                                }
+                                else if(code ==1){ Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();}
+                                else if(code ==2){ Toast.makeText(getApplicationContext(),"Unauthorized",Toast.LENGTH_SHORT).show();}
+                                else if(code ==3){ Toast.makeText(getApplicationContext(),"System Error",Toast.LENGTH_SHORT).show();}
+                                else if(code ==4){ Toast.makeText(getApplicationContext(),"Require Field",Toast.LENGTH_SHORT).show();}
+                                else if(code ==5){Toast.makeText(getApplicationContext(),"User Already Exist",Toast.LENGTH_SHORT).show();}
+                                else if(code ==6){Toast.makeText(getApplicationContext(),"No user found",Toast.LENGTH_SHORT).show();}
 
 
 
@@ -612,24 +644,7 @@ public class UserActivity extends AppCompatActivity
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            if(code==0)
-            {
-                reset();
-                Intent intent = new Intent(UserActivity.this, NewSurveyActivity.class);
-                intent.putExtra("email", sharedpreferences.getString(usermail, ""));
-                intent.putExtra("token", sharedpreferences.getString(TokenPreference, ""));
-                intent.putExtra("Name", sharedpreferences.getString(NamePreference, ""));
-                intent.putExtra(userType, OperatorT);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                Toast.makeText(getApplicationContext(),"Insert",Toast.LENGTH_SHORT).show();
-            }
-            else if(code ==1){ Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();}
-            else if(code ==2){ Toast.makeText(getApplicationContext(),"Unauthorized",Toast.LENGTH_SHORT).show();}
-            else if(code ==3){ Toast.makeText(getApplicationContext(),"System Error",Toast.LENGTH_SHORT).show();}
-            else if(code ==4){ Toast.makeText(getApplicationContext(),"Require Field",Toast.LENGTH_SHORT).show();}
-            else if(code ==5){Toast.makeText(getApplicationContext(),"User Already Exist",Toast.LENGTH_SHORT).show();}
-            else if(code ==6){Toast.makeText(getApplicationContext(),"No user found",Toast.LENGTH_SHORT).show();}
+
         }
 
     }
@@ -798,6 +813,11 @@ public class UserActivity extends AppCompatActivity
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 }

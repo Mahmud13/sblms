@@ -39,6 +39,9 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +65,9 @@ public class ViewSurveyActivity extends AppCompatActivity
 
     public static final String MyPREFERENCESuser = "UserPrefs" ;
     public static final String usermail = "Usermail";
+
+    public static final String ShopID = "sid";
+
     public static final String userType = "userType";
     public static final String AdminT = "admin";
     public static final String OperatorT = "user";
@@ -148,13 +154,13 @@ public class ViewSurveyActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent intent = new Intent(ViewSurveyActivity.this, TABActivity.class);
+                intent.putExtra(ShopID, id_array[position]);
                 intent.putExtra("email", sharedpreferences.getString(usermail,""));
                 intent.putExtra("token", sharedpreferences.getString(TokenPreference,""));
                 intent.putExtra("Name", sharedpreferences.getString(NamePreference,""));
                 intent.putExtra(userType,OperatorT);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-                Toast.makeText(getApplicationContext(), position + "item click", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -178,11 +184,10 @@ public class ViewSurveyActivity extends AppCompatActivity
 
     private class ShopViewList extends AsyncTask<String, Void, String> {
 
+        int code;
         String url = VariableClass.surveyed_list_view;
         InputStream inputStream = null;
         String result = "";
-
-
         ShopViewList(Activity a)
         {
             ac = a;
@@ -198,35 +203,58 @@ public class ViewSurveyActivity extends AppCompatActivity
                         public void onResponse(String response) {
                             // response
                             Log.d("AResponse", response);
+                            try {
 
-                            Gson gson = new Gson();
-                            ShopModel[] user= gson.fromJson(response,ShopModel[].class);
+                                JSONObject obj = new JSONObject(response);
+                                code = obj.getInt("code");
+                                //JSONObject messageOb = new JSONObject(message);
+                                Log.d("ob","code:"+code);
+
+                                if(code==0)
+                                {
+                                    Gson gson = new Gson();
+                                    ShopModel[] user= gson.fromJson(obj.getString("shops"),ShopModel[].class);
 
 
-                            for(int i = 0; i<user.length;i++)
-                            {
+                                    for(int i = 0; i<user.length;i++)
+                                    {
 
-                               // Log.d("user","userP"+user[i].getId());
-                                id_list.add(user[i].id);
-                                orderdate_list.add(user[i].createdAt);
-                                Name_list.add(user[i].name);
-                                address_list.add(user[i].ownerName);
-                                zone_list.add(user[i].address);
-                               // Log.d("user","useri-"+id_list);
-                            }
+                                        // Log.d("user","userP"+user[i].getId());
+                                        id_list.add(user[i].id);
+                                        orderdate_list.add(user[i].createdAt);
+                                        Name_list.add(user[i].name);
+                                        address_list.add(user[i].ownerName);
+                                        zone_list.add(user[i].address);
+                                        Log.d("NameLoop","name: "+Name_list);
+                                        // Log.d("user","useri-"+id_list);
+                                    }
 
 //                            orderdate_list.add("12/12/2017 20:40");
 //                            Name_list.add("Kazi Orin");
 //                            address_list.add("janata co operative housing");
 //                            zone_list.add("Mohammedpur");
-                            id_array = id_list.toArray(new String[id_list.size()]);
-                            orderdate_array = orderdate_list.toArray(new String[orderdate_list.size()]);
-                            name_array = Name_list.toArray(new String[Name_list.size()]);
-                            address_array = address_list.toArray(new String[address_list.size()]);
-                            zone_array = zone_list.toArray(new String[zone_list.size()]);
+                                    id_array = id_list.toArray(new String[id_list.size()]);
 
-                            mAdapter = new listAdapter(ac,name_array,zone_array,address_array,orderdate_array);
-                            listView.setAdapter(mAdapter);
+                                    orderdate_array = orderdate_list.toArray(new String[orderdate_list.size()]);
+                                    name_array = Name_list.toArray(new String[Name_list.size()]);
+
+                                    address_array = address_list.toArray(new String[address_list.size()]);
+                                    zone_array = zone_list.toArray(new String[zone_list.size()]);
+
+                                    mAdapter = new listAdapter(ac,name_array,zone_array,address_array,orderdate_array);
+                                    listView.setAdapter(mAdapter);
+                                }
+                                else
+                                {
+
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
 
                         }
                     },

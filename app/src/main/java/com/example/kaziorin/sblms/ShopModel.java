@@ -5,7 +5,7 @@ package com.example.kaziorin.sblms;
  */
 
 public class ShopModel {
-   String name,ownerName,address,phone,email,website,latitude,longitude,image,createdAt,id;
+   String name,ownerName,address,phone,email,website,latitude,longitude,image,createdAt,id,districtName,divisionName;
 
     int districtId;
     ShopModel( String name,String ownerName,String address,String phone,String email,String website,int districtId,String latitude,String longitude,String image)
